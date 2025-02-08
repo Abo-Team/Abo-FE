@@ -11,7 +11,6 @@ export const EditProfile = () => {
   });
 
   const accessToken = localStorage.getItem('accessToken');
-  
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -48,11 +47,15 @@ export const EditProfile = () => {
     }
   };
 
+  const exitClick = () => {
+    navigate('/mypage');
+  };
+
   return (
     <>
       <ContentsContainer>
         <HeaderContainer>
-          <ExitTitle>프로필 편집</ExitTitle>
+          <ExitTitle onClick={exitClick}>프로필 편집</ExitTitle>
           <ContentContainer>
             <ImgContainer></ImgContainer>
             <Inputs
