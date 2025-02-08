@@ -1,33 +1,70 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Title } from '../components';
 import styled from '@emotion/styled';
 import { colors } from '../theme';
+import { apiTodayLog, apiChatGpt } from '../apis';
 
 const SuggestionContent = ({ children }) => {
   return <SuggestionContentContainer>{children}</SuggestionContentContainer>;
 };
 
 export const Routine = () => {
-  const [datas, setDatas] = useState([
-    {
-      date: '2025.02.08',
-      content:
-        '아보팀 님 오늘의 기분은 평범, 짜증 이고 친구와 함께 공부 활동을 하셨네요! 평범하고 짜증나는 기분을 환기시키기 위해 오늘 동네 산책은 어떨까요? 초콜릿과 같은 기분이 좋아지는 음식도 좋을 것 같아요. 오늘 감정에 맞는 취미로는 요리를 추천드릴게요!',
-      suggestion: ['동네 산책', '초콜릿', '요리', '파란색'],
-    },
-  ]);
+  const accessToken = localStorage.getItem('accessToken');
+
+  const [postData, setPostData] = useState({
+    emotion: '',
+    activity: '',
+    people: '',
+  });
+
+  const [datas, setDatas] = useState({
+    date: new Date().toISOString().split('T')[0],
+    content: '',
+    suggestion: ['동네 산책', '초콜릿', '요리', '파란색'],
+  });
+
+  useEffect(() => {
+    const getToday = async () => {
+      const todayLogData = await apiTodayLog();
+      if (todayLogData && todayLogData.length > 0) {
+        const { emotion, activity, people } = todayLogData[0]; // 오늘의 첫 번째 로그 데이터
+        setPostData({ emotion, activity, people });
+      }
+    };
+  
+    getToday();
+  }, []);
+  
+  useEffect(() => {
+    const postChat = async () => {
+      if (postData.emotion && postData.activity && postData.people) {
+        const data = await apiChatGpt(postData);
+        if (data) {
+          setDatas((prevDatas) => ({
+            ...prevDatas,
+            content: data.content, // 실제 반환되는 필드에 맞게 수정
+          }));
+        }
+      }
+    };
+  
+    if (postData.emotion && postData.activity && postData.people) {
+      postChat();
+    }
+  }, [postData]);
+  
 
   return (
     <Container>
       <ContentAllContainer>
         <ContentsContainer>
-          <Title mainTitle={'오늘의 추천'} subTitle={datas[0].date} />
-          <ContentContainer>{datas[0].content}</ContentContainer>
+          <Title mainTitle={'오늘의 추천'} subTitle={datas.date} />
+          <ContentContainer>{datas.content}</ContentContainer>
         </ContentsContainer>
         <ContentsContainer>
           <Title mainTitle={'오늘의 추천'} />
           <SuggestionContainer>
-            {datas[0].suggestion.map((data, index) => (
+            {datas.suggestion.map((data, index) => (
               <SuggestionContent key={index}>{data}</SuggestionContent>
             ))}
           </SuggestionContainer>
