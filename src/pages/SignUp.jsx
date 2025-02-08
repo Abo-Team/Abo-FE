@@ -1,18 +1,20 @@
 import styled from '@emotion/styled';
 import { Button, Inputs, Title } from '../components/common';
-import { ImgInput } from '../components/common/ImgInput';
+import { ImgInput } from '../components';
 import { colors } from '../theme';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { apiSignUp } from '../apis';
 
 export const SignUp = () => {
-  const [datas, setDatas] = useState([
-    {
-      profileImg: '',
-      name: '',
-      email: '',
-      password: '',
-    },
-  ]);
+  const [datas, setDatas] = useState({
+    profileImg: '',
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const navigate = useNavigate();
 
   const handleImgChange = (url) => {
     setDatas((prev) => ({
@@ -43,6 +45,20 @@ export const SignUp = () => {
       ...prev,
       password: value,
     }));
+  };
+
+  const signUpClick = async () => {
+    try {
+      await apiSignUp({
+        email: datas.email,
+        name: datas.name,
+        password: datas.password,
+        imgUrl: datas.profileImg,
+      });
+      navigate('/complete-create-user');
+    } catch (error) {
+      console.log('회원가입 실패:', error);
+    }
   };
 
   console.log(datas);
@@ -77,7 +93,11 @@ export const SignUp = () => {
             />
           </InputContainer>
         </ProfileContainer>
-        <Button backgroundColor={colors.main[200]} color={colors.white}>
+        <Button
+          backgroundColor={colors.main[200]}
+          color={colors.white}
+          onClick={signUpClick}
+        >
           가입완료
         </Button>
       </BtnContainer>
@@ -86,29 +106,27 @@ export const SignUp = () => {
 };
 
 const SignUpContainer = styled.div`
-  @media (max-width: 375px) {
-    display: flex;
-    align-items: center;
-    margin-top: 30px;
-    flex-direction: column;
-  }
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  flex-direction: column;
 `;
 
 const InputContainer = styled.div`
-  @media (max-width: 375px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 31px;
-    width: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 39px;
 `;
 
 const ProfileContainer = styled.div`
@@ -116,13 +134,14 @@ const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 51px;
 `;
 
 const BtnContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 120px;
-  width: 316px;
+  width: 100vw;
+  padding: 0 45px;
   margin-top: 40px;
 `;

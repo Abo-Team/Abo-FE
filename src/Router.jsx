@@ -1,7 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { AppLayout } from './layout';
-import { Homepage } from './pages/Homepage'; // ✅ named export 방식 유지
-import { SignUp } from './pages/SignUp'; // ✅ named export 방식 유지
+import { Homepage } from './pages/Homepage'; // ✅ Homepage 유지!
+import {
+  CompleteCreateUser,
+  CompleteLogin,
+  EditProfile,
+  Login,
+  Mypage,
+  SecessionFirstPage,
+  SecessionSecondPage,
+  SignUp,
+  Routine,
+} from './pages';
 
 export const Router = createBrowserRouter([
   {
@@ -10,11 +20,43 @@ export const Router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Homepage />, // ✅ named import 사용!
+        element: <Homepage />, // ✅ Homepage 유지!
       },
       {
         path: '/signup',
-        element: <SignUp />, // ✅ named import 사용!
+        element: <SignUp />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/complete-create-user',
+        element: <CompleteCreateUser />,
+      },
+      {
+        path: '/complete-login',
+        element: <CompleteLogin />,
+      },
+      {
+        path: '/mypage',
+        element: <Mypage />,
+      },
+      {
+        path: '/edit-profile',
+        element: <EditProfile />,
+      },
+      {
+        path: '/secession-second',
+        element: <SecessionSecondPage />,
+      },
+      {
+        path: '/secession-first',
+        element: <SecessionFirstPage />,
+      },
+      {
+        path: '/routine',
+        element: <Routine />,
       },
     ],
   },
