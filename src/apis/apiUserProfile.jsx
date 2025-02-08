@@ -1,10 +1,10 @@
 import { instance } from './instance';
 
-export const apiGetUserProfile = async (access_token) => {
+export const apiGetUserProfile = async (accessToken) => {
   try {
     const response = await instance.get('/user', {
       headers: {
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 

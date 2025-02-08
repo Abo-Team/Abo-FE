@@ -1,13 +1,23 @@
 import styled from '@emotion/styled';
 import { Button, Title } from '../components';
 import { colors } from '../theme';
+import { useNavigate } from 'react-router-dom';
 
 export const SecessionSecondPage = () => {
+  const navigate = useNavigate();
+
+  const startClick = () => {
+    navigate('/');
+  };
   return (
     <PageContainer>
       <ContentContainer>
         <Title mainTitle={'회원 탈퇴가 완료되었습니다'} />
-        <Button backgroundColor={colors.main[200]} color={colors.white}>
+        <Button
+          backgroundColor={colors.main[200]}
+          color={colors.white}
+          onClick={startClick}
+        >
           처음으로
         </Button>
       </ContentContainer>

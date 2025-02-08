@@ -8,14 +8,17 @@ export const apiSignIn = async ({ email, password }) => {
       password,
     });
     if (response.status === 200) {
-      const { access_token, refresh_token } = response.data;
+      const { accessToken, refreshToken } = response.data.data;
+      console.log('성공');
 
-      localStorage.setItem('refresh_token', refresh_token);
-      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('accessToken', accessToken);
+      return true;
     }
   } catch (error) {
     if (error.response) {
       console.log('error');
+      return false;
     }
   }
 };
