@@ -1,17 +1,26 @@
-import { useNavigate } from 'react-router-dom';
 import { instance } from './instance';
 
 export const apiRename = async ({ name }) => {
-  try {
-    const response = await instance.patch('/user', { name });
-    if (response.status === 200) {
-      const navigate = useNavigate();
+  const accessToken = localStorage.getItem('accessToken');
 
-      navigate('/mypage');
+  try {
+    const response = await instance.patch(
+      `/user?name=${name}`,
+      {}  ,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    if (response.status === 200) {
+      console.log('성공');
+      return true;
     }
   } catch (error) {
     if (error.response) {
       console.log('error');
+      return false;
     }
   }
 };

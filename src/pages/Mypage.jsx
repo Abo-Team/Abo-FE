@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Title } from '../components';
 import { colors } from '../theme';
 import { useEffect, useState } from 'react';
-import { apiGetUserProfile } from '../apis';
+import { apiDelUser, apiGetUserProfile } from '../apis';
 import { useNavigate } from 'react-router-dom';
 
 export const Mypage = () => {
@@ -15,7 +15,7 @@ export const Mypage = () => {
     },
   ]);
 
-  const accessToken = localStorage.getItem('access_token');
+  const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -30,6 +30,16 @@ export const Mypage = () => {
 
   const editProfile = () => {
     navigate('/edit-profile');
+  };
+
+  const delUserClick = () => {
+    navigate('/secession-first');
+  };
+
+  const logOutClick = () => {
+    localStorage.setItem('accessToken', '');
+    localStorage.setItem('refreshToken', '');
+    navigate('/');
   };
 
   return (
@@ -47,8 +57,8 @@ export const Mypage = () => {
             </ContentContainer>
           </ContentAllContainer>
           <NavContainer>
-            <Nav>로그아웃</Nav>
-            <Nav>회원탈퇴</Nav>
+            <Nav onClick={logOutClick}>로그아웃</Nav>
+            <Nav onClick={delUserClick}>회원탈퇴</Nav>
           </NavContainer>
         </NavContentContainer>
       </TitleContainer>

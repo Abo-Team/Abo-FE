@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { instance } from './instance';
+import { instance } from "./instance";
 
 export const apiSignUp = async ({ email, name, password, imgUrl }) => {
   try {
@@ -11,13 +10,13 @@ export const apiSignUp = async ({ email, name, password, imgUrl }) => {
     });
 
     if (response.status === 201) {
-      const navigate = useNavigate();
       console.log('회원가입 성공');
-      navigate('/complete-create-user');
+      return true;
+    } else {
+      return false;
     }
   } catch (error) {
-    if (error.response) {
-      console.log('error');
-    }
+    console.log('회원가입 실패:', error);
+    return false;
   }
 };

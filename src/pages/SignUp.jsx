@@ -49,13 +49,15 @@ export const SignUp = () => {
 
   const signUpClick = async () => {
     try {
-      await apiSignUp({
+      const result = await apiSignUp({
         email: datas.email,
         name: datas.name,
         password: datas.password,
         imgUrl: datas.profileImg,
       });
-      navigate('/complete-create-user');
+      if (result) {
+        navigate('/complete-create-user');
+      }
     } catch (error) {
       console.log('회원가입 실패:', error);
     }

@@ -1,28 +1,48 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, ExitTitle, ImgInput, Inputs } from '../components';
 import styled from '@emotion/styled';
 import { colors } from '../theme';
-import { apiRename } from '../apis';
+import { apiGetUserProfile, apiRename } from '../apis';
+import { data, useNavigate } from 'react-router-dom';
 
 export const EditProfile = () => {
   const [datas, setDatas] = useState({
-    name: '아보팀',
+    name: '',
   });
+
+  const accessToken = localStorage.getItem('accessToken');
+  
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const profileData = await apiGetUserProfile(accessToken);
+      if (profileData) {
+        setDatas({
+          name: profileData.name,
+        });
+      }
+    };
+
+    fetchProfile();
+  }, [accessToken]);
 
   const handleNameChange = (e) => {
     const value = e.target.value;
-    setDatas([
-      {
-        ...datas,
-        name: value,
-      },
-    ]);
+    setDatas({
+      ...datas,
+      name: value,
+    });
   };
   console.log(datas);
 
+  const navigate = useNavigate();
+
   const editClick = async () => {
     try {
-      await apiRename({ name: datas.name });
+      const data = await apiRename({ name: datas.name });
+      if (data) {
+        navigate('/mypage');
+      }
     } catch (error) {
       console.log(error);
     }

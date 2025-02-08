@@ -6,8 +6,16 @@ import { useNavigate } from 'react-router-dom';
 
 export const SecessionFirstPage = () => {
   const navigate = useNavigate();
-  const yesClick = () => {
-    apiDelUser();
+  const yesClick = async () => {
+    try {
+      const result = await apiDelUser({});
+
+      if (result) {
+        navigate('/secession-second');
+      }
+    } catch {
+      console.log('error');
+    }
   };
 
   const noClick = () => {
