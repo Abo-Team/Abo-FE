@@ -1,8 +1,12 @@
 import styled from '@emotion/styled';
 
-export const Button = ({ children, backgroundColor, color }) => {
+export const Button = ({ children, backgroundColor, color, onClick }) => {
   return (
-    <BtnContainer color={color} backgroundColor={backgroundColor}>
+    <BtnContainer
+      color={color}
+      backgroundColor={backgroundColor}
+      onClick={onClick}
+    >
       {children}
     </BtnContainer>
   );
