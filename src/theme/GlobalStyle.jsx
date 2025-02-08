@@ -2,8 +2,13 @@ import { Global, css } from '@emotion/react';
 
 const globalStyle = css`
   @font-face {
-    font-family: 'PretendardVariable';
-    src: url('./PretendardVariable.ttf');
+    font-family: 'KHNPHDotfR';
+    src: url('./KHNPHDotfR.otf');
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: 'KHNPHUotfR';
+    src: url('./KHNPHUotfR.otf');
     font-weight: 100 900;
   }
 
@@ -144,7 +149,7 @@ const globalStyle = css`
 
   body {
     color: black;
-    font-family: 'PretendardVariable';
+    font-family: 'KHNPHDotfR', 'KHNPHUotfR';
   }
   .normal {
     font-weight: 400;
