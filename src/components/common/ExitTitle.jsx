@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { exitBtn } from '../../assets';
 
-export const ExitTitle = ({children}) => {
+export const ExitTitle = ({ children, onClick }) => {
   return (
     <Container>
       <ContentContainer>
-        <img src={exitBtn} alt="exitBtn" />
+        <img src={exitBtn} alt="exitBtn" onClick={onClick} />
         <Title>{children}</Title>
       </ContentContainer>
     </Container>
